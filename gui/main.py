@@ -1,7 +1,7 @@
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QStackedLayout, QPushButton
 from PyQt6.QtCore import QTimer, Qt
-from fb0_video_widget import FB0VideoWidget
+from video0_widget import Video0Widget
 from ui import UI
 from PyQt6.QtGui import QImage, QPixmap
 
@@ -13,7 +13,7 @@ class MainWindow(QMainWindow):
         self.resize(width, height)
 
         container = QWidget(self)
-        self.fb0_video = FB0VideoWidget()
+        self.fb0_video = Video0Widget()
         self.ui = UI()
         self.ui.raise_()
 
