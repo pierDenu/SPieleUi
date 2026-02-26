@@ -1,13 +1,12 @@
 import os
 import mmap
-import time
 
 from PyQt6.QtCore import QRect, Qt
 from PyQt6.QtGui import QImage, QPainter
 from PyQt6.QtWidgets import QWidget
 
 
-class FB0Reader(QWidget):
+class FB0VideoWidget(QWidget):
     def __init__(self):
         super().__init__()
 
@@ -21,6 +20,7 @@ class FB0Reader(QWidget):
         # читаємо параметри fb0
         with open("/sys/class/graphics/fb0/virtual_size") as f:
             w, h = map(int, f.read().strip().split(","))
+            print(w, h)
         with open("/sys/class/graphics/fb0/bits_per_pixel") as f:
             bpp = int(f.read().strip()) // 8
         with open("/sys/class/graphics/fb0/stride") as f:
@@ -38,9 +38,11 @@ class FB0Reader(QWidget):
 
         self.img = QImage(self.mm, self.w, self.h, self.stride, QImage.Format.Format_ARGB32)
 
+
     def paintEvent(self, e):
         p = QPainter(self)
-        p.drawImage(QRect(0, 0, self.width(), self.height()), self.img)
+        p.drawImage(QRect(0, 0, self.w, self.h), self.img)
+
 
     def close(self):
         self.mm.close()
