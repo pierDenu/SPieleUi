@@ -13,16 +13,9 @@ class MainWindow(QMainWindow):
         self.resize(width, height)
 
         container = QWidget(self)
-        self.fb0_video = Video0Widget()
-        self.ui = UI()
-        self.ui.raise_()
-
-        stack = QStackedLayout(container)
-        stack.setContentsMargins(0, 0, 0, 0)
-        stack.setStackingMode(QStackedLayout.StackingMode.StackAll)
-
-        stack.addWidget(self.ui)    # передній шар
-        stack.addWidget(self.fb0_video)  # задній шар
+        self._init_widgets()
+        layout = self._create_layout(container)
+        self._add_widgets_to_layout(layout)
 
         self.setCentralWidget(container)
 
@@ -30,8 +23,24 @@ class MainWindow(QMainWindow):
         self.h = height
 
         self.timer = QTimer(self)
-        self.timer.timeout.connect(self.fb0_video.update)
-        self.timer.start(3)
+        self.timer.timeout.connect(self.video0_widget.grab)
+        self.timer.start(15)
+
+    def _init_widgets(self):
+        self.video0_widget = Video0Widget()
+        self.ui = UI()
+
+    def _create_layout(self, container):
+        layout = QStackedLayout(container)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setStackingMode(QStackedLayout.StackingMode.StackAll)
+        return layout
+
+    def _add_widgets_to_layout(self, stack):
+        stack.addWidget(self.ui)  # передній шар
+        stack.addWidget(self.video0_widget)  # задній шар
+
+
 
 def main():
     app = QApplication(sys.argv)
