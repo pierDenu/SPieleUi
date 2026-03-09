@@ -12,12 +12,12 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Spiel")
         self.resize(width, height)
 
-        container = QWidget(self)
+        self.container = QWidget(self)
         self._init_widgets()
-        layout = self._create_layout(container)
-        self._add_widgets_to_layout(layout)
+        self._create_layout()
+        self._add_widgets_to_layout()
 
-        self.setCentralWidget(container)
+        self.setCentralWidget(self.container)
 
         self.w = width
         self.h = height
@@ -30,15 +30,14 @@ class MainWindow(QMainWindow):
         self.video0_widget = Video0Widget()
         self.ui = UI()
 
-    def _create_layout(self, container):
-        layout = QStackedLayout(container)
-        layout.setContentsMargins(0, 0, 0, 0)
-        layout.setStackingMode(QStackedLayout.StackingMode.StackAll)
-        return layout
+    def _create_layout(self):
+        self.layout = QStackedLayout(self.container)
+        self.layout.setContentsMargins(0, 0, 0, 0)
+        self.layout.setStackingMode(QStackedLayout.StackingMode.StackAll)
 
-    def _add_widgets_to_layout(self, stack):
-        stack.addWidget(self.ui)  # передній шар
-        stack.addWidget(self.video0_widget)  # задній шар
+    def _add_widgets_to_layout(self):
+        self.layout.addWidget(self.ui)  # передній шар
+        self.layout.addWidget(self.video0_widget)  # задній шар
 
 
 

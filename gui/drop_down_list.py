@@ -1,12 +1,16 @@
-from PyQt6.QtCore import QPoint
+from PyQt6.QtCore import QPoint, QPropertyAnimation, QEasingCurve
 from PyQt6.QtGui import QGuiApplication
 from PyQt6.QtWidgets import QComboBox, QAbstractItemView
 
 
 class DropDownList(QComboBox):
-    def __init__(self, *args, scroll_to_top_on_open: bool = True, **kwargs):
+    def __init__(self, *args, scroll_to_top_on_open: bool = True, items_list=None,
+                 **kwargs):
         super().__init__(*args, **kwargs)
         self.scroll_to_top_on_open = scroll_to_top_on_open
+
+        if items_list is not None:
+            self.addItems(items_list)
 
     def showPopup(self):
         # показати стандартний popup
