@@ -97,7 +97,7 @@ class SwitchToggle(QCheckBox):
             p.drawEllipse(QPointF(xPos, barRect.center().y()),
                           self._pulse_radius, self._pulse_radius)
 
-        if self.isChecked():
+        if not self.isChecked():
             p.setBrush(self._bar_checked_brush)
             p.drawRoundedRect(barRect, rounding, rounding)
             p.setBrush(self._handle_checked_brush)
