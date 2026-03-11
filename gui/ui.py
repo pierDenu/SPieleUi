@@ -20,13 +20,14 @@ class UI(QWidget):
 
         self.set_up_controls_container()
         self.set_up_settings_container()
+        self.set_up_plus_minus_container()
 
         self.layout.addWidget(self.settings_container, 1)
-        self.layout.addWidget(self.controls_container, 3)
-        self.layout.addWidget(self.plus_minus_container, 2)
+        self.layout.addWidget(self.controls_container, 5)
+        self.layout.addWidget(self.plus_minus_container, 4)
 
         self.is_visible = True
-        self.controls_container.set_default_widget_size(100, 100)
+        #self.controls_container.set_default_widget_size(100, 100)
 
     def set_up_controls_container(self):
         left_controls_dict = dict()
@@ -38,6 +39,7 @@ class UI(QWidget):
         right_controls_dict["freq_input_field"] = FreqInputWidget()
         right_controls_dict["intercept_button"] = QPushButton("I")
         self.controls_container.update_panels_widgets(left_controls_dict, right_controls_dict)
+        self.controls_container.set_default_widget_size(100, 100)
 
         left_panel = self.controls_container.get_left_panel()
         left_panel.set_child_button_icon(widget_name="threats_button",
@@ -45,12 +47,26 @@ class UI(QWidget):
 
     def set_up_settings_container(self):
         right_settings_dict = dict()
+        left_settings_dict = dict()
         toggle_controls_switch = SwitchToggle(parent=self, checked_color="#FFB000",
                                               pulse_checked_color="#44FFB000")
+        exit_button = QPushButton("Exit")
         toggle_controls_switch.stateChanged.connect(self.toggle_visibility)
 
         right_settings_dict["toggle_controls_switch"] = toggle_controls_switch
-        self.settings_container.update_panels_widgets(right_panel_widgets=right_settings_dict)
+        left_settings_dict["exit_button"] = exit_button
+        self.settings_container.update_panels_widgets(right_panel_widgets=right_settings_dict, left_panel_widgets=left_settings_dict)
+
+    def set_up_plus_minus_container(self):
+        left_panel, right_panel = self.plus_minus_container.get_panels()
+
+        minus_button = QPushButton("-")
+        plus_button = QPushButton("+")
+
+        left_panel.add_widget(widget=minus_button, widget_name="minus_button")
+        right_panel.add_widget(widget=plus_button, widget_name="plus_button")
+        self.plus_minus_container.set_default_widget_size(100, 100)
+
 
     def toggle_visibility(self):
         self.is_visible = not self.is_visible

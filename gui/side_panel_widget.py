@@ -28,6 +28,7 @@ class SidePanelWidget(QWidget):
 
     def update_child_widgets_dict(self, child_widgets_dict):
         self.child_widgets_dict = child_widgets_dict
+        self.clear_layout()
 
         for widget in child_widgets_dict.values():
             self.layout.addWidget(widget)
@@ -82,5 +83,12 @@ class SidePanelWidget(QWidget):
                 padding: 0px;
             }
         """)
+
+    def clear_layout(self):
+        while self.layout.count():
+            item = self.layout.takeAt(0)
+
+            widget = item.widget()
+            widget.deleteLater()
 
 
