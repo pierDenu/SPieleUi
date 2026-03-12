@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QWidget, QHBoxLayout
 
@@ -38,3 +40,7 @@ class SidePanelsContainer(QWidget):
 
         if right_panel_widgets:
             self.right_panel.update_child_widgets_dict(right_panel_widgets)
+
+    def load_qss(self, relative_path):
+        path = Path(__file__).resolve().parent / relative_path
+        return path.read_text(encoding="utf-8-sig")
